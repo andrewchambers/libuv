@@ -45,7 +45,9 @@
 
 #include "uv/threadpool.h"
 
-#if defined(__linux__)
+#if defined(__COSMOPOLITAN__)
+# include "uv/posix.h"
+#elif defined(__linux__) &&
 # include "uv/linux.h"
 #elif defined (__MVS__)
 # include "uv/os390.h"
@@ -508,5 +510,9 @@ typedef struct {
 #define UV_FS_O_SHORT_LIVED   0
 #define UV_FS_O_SEQUENTIAL    0
 #define UV_FS_O_TEMPORARY     0
+
+#if defined(__COSMOPOLITAN__)
+#include "cosmo_hacks.h"
+#endif
 
 #endif /* UV_UNIX_H */

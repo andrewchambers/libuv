@@ -90,7 +90,7 @@ extern char** environ;
 # include "zos-sys-info.h"
 #endif
 
-#if defined(__linux__)
+#if !defined(__COSMOPOLITAN__) && defined(__linux__)
 # include <sched.h>
 # include <sys/syscall.h>
 # define gettid() syscall(SYS_gettid)
@@ -1140,7 +1140,7 @@ int uv__slurp(const char* filename, char* buf, size_t len) {
 
 
 int uv__dup2_cloexec(int oldfd, int newfd) {
-#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__linux__)
+#if !defined(__COSMOPOLITAN__) && defined(__FreeBSD__) || defined(__NetBSD__) || defined(__linux__)
   int r;
 
   r = dup3(oldfd, newfd, O_CLOEXEC);
@@ -1578,7 +1578,7 @@ uv_pid_t uv_os_getppid(void) {
 }
 
 int uv_cpumask_size(void) {
-#if UV__CPU_AFFINITY_SUPPORTED
+#if !defined(__COSMOPOLITAN__) && UV__CPU_AFFINITY_SUPPORTED
   return CPU_SETSIZE;
 #else
   return UV_ENOTSUP;

@@ -146,7 +146,6 @@ struct uv__queue {
   XX(ETXTBSY, "text file is busy")                                            \
   XX(EXDEV, "cross-device link not permitted")                                \
   XX(UNKNOWN, "unknown error")                                                \
-  XX(EOF, "end of file")                                                      \
   XX(ENXIO, "no such device or address")                                      \
   XX(EMLINK, "too many links")                                                \
   XX(EHOSTDOWN, "host is down")                                               \
@@ -189,12 +188,95 @@ struct uv__queue {
   XX(GETNAMEINFO, getnameinfo)                                                \
   XX(RANDOM, random)                                                          \
 
-typedef enum {
-#define XX(code, _) UV_ ## code = UV__ ## code,
-  UV_ERRNO_MAP(XX)
-#undef XX
-  UV_ERRNO_MAX = UV__EOF - 1
-} uv_errno_t;
+#define UV_E2BIG E2BIG
+#define UV_EACCES EACCES
+#define UV_EADDRINUSE EADDRINUSE
+#define UV_EADDRNOTAVAIL EADDRNOTAVAIL
+#define UV_EAFNOSUPPORT EAFNOSUPPORT
+#define UV_EAGAIN EAGAIN
+#define UV_EAI_ADDRFAMILY EAI_ADDRFAMILY
+#define UV_EAI_AGAIN EAI_AGAIN
+#define UV_EAI_BADFLAGS EAI_BADFLAGS
+#define UV_EAI_BADHINTS EAI_BADHINTS
+#define UV_EAI_CANCELED EAI_CANCELED
+#define UV_EAI_FAIL EAI_FAIL
+#define UV_EAI_FAMILY EAI_FAMILY
+#define UV_EAI_MEMORY EAI_MEMORY
+#define UV_EAI_NODATA EAI_NODATA
+#define UV_EAI_NONAME EAI_NONAME
+#define UV_EAI_OVERFLOW EAI_OVERFLOW
+#define UV_EAI_PROTOCOL EAI_PROTOCOL
+#define UV_EAI_SERVICE EAI_SERVICE
+#define UV_EAI_SOCKTYPE EAI_SOCKTYPE
+#define UV_EALREADY EALREADY
+#define UV_EBADF EBADF
+#define UV_EBUSY EBUSY
+#define UV_ECANCELED ECANCELED
+#define UV_ECHARSET ECHARSET
+#define UV_ECONNABORTED ECONNABORTED
+#define UV_ECONNREFUSED ECONNREFUSED
+#define UV_ECONNRESET ECONNRESET
+#define UV_EDESTADDRREQ EDESTADDRREQ
+#define UV_EEXIST EEXIST
+#define UV_EFAULT EFAULT
+#define UV_EFBIG EFBIG
+#define UV_EHOSTUNREACH EHOSTUNREACH
+#define UV_EINTR EINTR
+#define UV_EINVAL EINVAL
+#define UV_EIO EIO
+#define UV_EISCONN EISCONN
+#define UV_EISDIR EISDIR
+#define UV_ELOOP ELOOP
+#define UV_EMFILE EMFILE
+#define UV_EMSGSIZE EMSGSIZE
+#define UV_ENAMETOOLONG ENAMETOOLONG
+#define UV_ENETDOWN ENETDOWN
+#define UV_ENETUNREACH ENETUNREACH
+#define UV_ENFILE ENFILE
+#define UV_ENOBUFS ENOBUFS
+#define UV_ENODEV ENODEV
+#define UV_ENOENT ENOENT
+#define UV_ENOMEM ENOMEM
+#define UV_ENONET ENONET
+#define UV_ENOPROTOOPT ENOPROTOOPT
+#define UV_ENOSPC ENOSPC
+#define UV_ENOSYS ENOSYS
+#define UV_ENOTCONN ENOTCONN
+#define UV_ENOTDIR ENOTDIR
+#define UV_ENOTEMPTY ENOTEMPTY
+#define UV_ENOTSOCK ENOTSOCK
+#define UV_ENOTSUP ENOTSUP
+#define UV_EOVERFLOW EOVERFLOW
+#define UV_EPERM EPERM
+#define UV_EPIPE EPIPE
+#define UV_EPROTO EPROTO
+#define UV_EPROTONOSUPPORT EPROTONOSUPPORT
+#define UV_EPROTOTYPE EPROTOTYPE
+#define UV_ERANGE ERANGE
+#define UV_EROFS EROFS
+#define UV_ESHUTDOWN ESHUTDOWN
+#define UV_ESPIPE ESPIPE
+#define UV_ESRCH ESRCH
+#define UV_ETIMEDOUT ETIMEDOUT
+#define UV_ETXTBSY ETXTBSY
+#define UV_EXDEV EXDEV
+#define UV_UNKNOWN UNKNOWN
+#define UV_EOF EOF
+#define UV_ENXIO ENXIO
+#define UV_EMLINK EMLINK
+#define UV_EHOSTDOWN EHOSTDOWN
+#define UV_EREMOTEIO EREMOTEIO
+#define UV_ENOTTY ENOTTY
+#define UV_EFTYPE EFTYPE
+#define UV_EILSEQ EILSEQ
+#define UV_ESOCKTNOSUPPORT ESOCKTNOSUPPORT
+#define UV_ENODATA ENODATA
+#define UV_EUNATCH EUNATCH
+#define UV_ENOEXEC ENOEXEC
+
+#define UV_ERRNO_MAX (UV__EOF - 1) 
+
+typedef int uv_errno_t;
 
 typedef enum {
   UV_UNKNOWN_HANDLE = 0,

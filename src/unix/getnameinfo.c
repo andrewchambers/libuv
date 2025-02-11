@@ -62,8 +62,7 @@ static void uv__getnameinfo_done(struct uv__work* w, int status) {
   host = service = NULL;
 
   if (status == UV_ECANCELED) {
-    assert(req->retcode == 0);
-    req->retcode = UV_EAI_CANCELED;
+    abort();
   } else if (req->retcode == 0) {
     host = req->host;
     service = req->service;

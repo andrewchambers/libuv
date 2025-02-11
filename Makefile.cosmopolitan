@@ -1,0 +1,82 @@
+#
+# Simple Makefile for building libuv.a under Cosmopolitan
+# using cosmocc (compiler) and comoar (archiver), and
+# also building a cosmo_test.c test program linked with libuv.
+#
+# Usage:
+#   make
+#   make clean
+#
+
+# Adjust these paths/defines/flags as needed for your environment.
+CC      = cosmocc
+AR      = cosmoar
+CFLAGS  = -Wfatal-errors -O2 -static \
+          -Iinclude -Isrc -Isrc/unix
+
+# libuv sources.
+SOURCES = \
+  src/fs-poll.c \
+  src/idna.c \
+  src/inet.c \
+  src/random.c \
+  src/thread-common.c \
+  src/threadpool.c \
+  src/timer.c \
+  src/uv-data-getter-setters.c \
+  src/uv-common.c \
+  src/version.c \
+  src/strtok.c \
+  src/strscpy.c \
+  src/unix/async.c \
+  src/unix/core.c \
+  src/unix/dl.c \
+  src/unix/fs.c \
+  src/unix/getaddrinfo.c \
+  src/unix/getnameinfo.c \
+  src/unix/loop-watcher.c \
+  src/unix/loop.c \
+  src/unix/pipe.c \
+  src/unix/poll.c \
+  src/unix/process.c \
+  src/unix/random-devurandom.c \
+  src/unix/signal.c \
+  src/unix/stream.c \
+  src/unix/tcp.c \
+  src/unix/thread.c \
+  src/unix/tty.c \
+  src/unix/udp.c \
+  src/unix/procfs-exepath.c \
+  src/unix/no-proctitle.c \
+  src/unix/random-getrandom.c \
+  src/unix/posix-hrtime.c \
+  src/unix/posix-poll.c \
+  src/unix/no-fsevents.c
+
+# Object files (auto‐derived from .c sources).
+OBJS = $(SOURCES:.c=.o)
+
+# Test code source
+TEST_SRC = cosmo_test.c
+# Object file for test code
+TEST_OBJ = $(TEST_SRC:.c=.o)
+# Output test executable
+TEST_BIN = cosmo_test.com
+
+all: libuv.a $(TEST_BIN)
+
+# Compile each .c into a .o using cosmocc + the specified CFLAGS.
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Archive all object files into libuv.a using comoar.
+libuv.a: $(OBJS)
+	$(AR) rcs $@ $(OBJS)
+
+# Build the test program (links the newly built libuv.a).
+$(TEST_BIN): libuv.a $(TEST_OBJ)
+	$(CC) $(CFLAGS) -static $(TEST_OBJ) libuv.a -o $@
+
+# Clean up generated files.
+clean:
+	rm -f $(OBJS) libuv.a $(TEST_OBJ) $(TEST_BIN)

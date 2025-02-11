@@ -152,7 +152,7 @@ static void uv__udp_io(uv_loop_t* loop, uv__io_t* w, unsigned int revents) {
 }
 
 static int uv__udp_recvmmsg(uv_udp_t* handle, uv_buf_t* buf) {
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#if !defined(__COSMOPOLITAN__) && defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
   struct sockaddr_in6 peers[20];
   struct iovec iov[ARRAY_SIZE(peers)];
   struct mmsghdr msgs[ARRAY_SIZE(peers)];
@@ -754,7 +754,8 @@ static int uv__udp_set_membership6(uv_udp_t* handle,
     !defined(__ANDROID__) &&                                        \
     !defined(__DragonFly__) &&                                      \
     !defined(__QNX__) &&                                            \
-    !defined(__GNU__)
+    !defined(__GNU__) &&                                            \
+    !defined(__COSMOPOLITAN__)
 static int uv__udp_set_source_membership4(uv_udp_t* handle,
                                           const struct sockaddr_in* multicast_addr,
                                           const char* interface_addr,
@@ -945,7 +946,8 @@ int uv_udp_set_source_membership(uv_udp_t* handle,
     !defined(__ANDROID__) &&                                        \
     !defined(__DragonFly__) &&                                      \
     !defined(__QNX__) &&                                            \
-    !defined(__GNU__)
+    !defined(__GNU__) &&                                            \
+    !defined(__COSMOPOLITAN__)
   int err;
   union uv__sockaddr mcast_addr;
   union uv__sockaddr src_addr;
@@ -1298,7 +1300,7 @@ static int uv__udp_sendmsgv(int fd,
   r = 0;
   nsent = 0;
 
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#if !defined(__COSMOPOLITAN__) && defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
   if (count > 1) {
     for (i = 0; i < count; /*empty*/) {
       struct mmsghdr m[20];
@@ -1325,7 +1327,7 @@ static int uv__udp_sendmsgv(int fd,
 
     goto exit;
   }
-#endif  /* defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__) */
+#endif  /* !defined(__COSMOPOLITAN__) && defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__) */
 
   for (i = 0; i < count; i++, nsent++)
     if ((r = uv__udp_sendmsg1(fd, bufs[i], nbufs[i], addrs[i])))

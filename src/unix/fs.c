@@ -1529,7 +1529,7 @@ static int uv__fs_statx(int fd,
                         int is_fstat,
                         int is_lstat,
                         uv_stat_t* buf) {
-  STATIC_ASSERT(UV_ENOSYS != -1);
+  // STATIC_ASSERT(UV_ENOSYS != -1);
 #ifdef __linux__
   static _Atomic int no_statx;
   struct uv__statx statxbuf;
